@@ -1,11 +1,11 @@
 extends Node
 
-func test(params) -> String:
+func test(_params) -> String:
 	print("test")
 	return "done"
 
 
-func test2(params) -> void:
+func test2(_params) -> void:
 	print("test 2")
 
 

@@ -35,11 +35,13 @@ func _ready() -> void:
 	container.position.y = -400
 	saveTimer.one_shot = true
 	timestamp = Time.get_unix_time_from_system()
+	
 	if (SaveLogFile):
 		saveTimer.start(LogSaveTime)
 	
 	
 func _process(_delta) -> void:
+	text.scroll_vertical = INF
 	if ActivateKey=="":
 		return
 		
@@ -65,8 +67,8 @@ func Hide() -> void:
 		get_tree().paused=false
 
 
-func AddLog(log : String) -> void:
-	text.text += log + "\n"
+func AddLog(_log : String) -> void:
+	text.text += _log + "\n"
 	
 
 func RegVar(varName:String,value) -> void:
@@ -121,7 +123,6 @@ func _parseFunctions(functext : String) -> void:
 					var constfound : bool = false
 					for cindex  in range(1,l.size()):
 						var keys = consts.keys()
-						var constname : String
 						for n in keys:
 							constfound = false
 							if l[cindex]==n:
@@ -162,8 +163,8 @@ func _parseFunctions(functext : String) -> void:
 						
 						
 				
-func _trimParameters(input:String) -> String:
-	return input.replace(" ","").replace("(","").replace(")","")
+func _trimParameters(_input:String) -> String:
+	return _input.replace(" ","").replace("(","").replace(")","")
 			
 			
 func _saveLogFile(filename : String = "") -> void:
