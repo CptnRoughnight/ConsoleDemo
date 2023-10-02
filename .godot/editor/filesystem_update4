@@ -2,3 +2,5 @@ res://node_3d.tscn
 res://Console/console.gd
 res://node_3d.gd
 res://Console/AutoCon.gd
+res://Console/con_standards.gd
+res://test_command.gd

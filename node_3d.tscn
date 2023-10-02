@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://clavqha80114o"]
+[gd_scene load_steps=13 format=3 uid="uid://clavqha80114o"]
 
 [ext_resource type="Script" path="res://node_3d.gd" id="1_20uke"]
 [ext_resource type="PackedScene" uid="uid://dohswethysdme" path="res://Console/console.tscn" id="1_cl01p"]
@@ -16,7 +16,12 @@ sky = SubResource("Sky_moa3n")
 [sub_resource type="Resource" id="Resource_cib46"]
 script = ExtResource("2_wwv25")
 command_script = "res://test_command.gd"
-command_name = Array[String](["test", "test2", "param", "setResolution", "setFullscreen", "CameraPosition"])
+command_name = Array[String](["test", "test2", "param", "CameraPosition"])
+
+[sub_resource type="Resource" id="Resource_ak1mw"]
+script = ExtResource("2_wwv25")
+command_script = "res://Console/con_standards.gd"
+command_name = Array[String](["setResolution", "setFullscreen"])
 
 [sub_resource type="BoxMesh" id="BoxMesh_3enju"]
 
@@ -67,7 +72,7 @@ environment = SubResource("Environment_qbra7")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.537466, 0)
 
 [node name="Console" parent="." instance=ExtResource("1_cl01p")]
-commands = Array[ExtResource("2_wwv25")]([SubResource("Resource_cib46")])
+commands = Array[ExtResource("2_wwv25")]([SubResource("Resource_cib46"), SubResource("Resource_ak1mw")])
 ActivateKey = "Console"
 LogSaveTime = 5.0
 

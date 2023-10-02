@@ -80,6 +80,7 @@ func RegConst(constName : String,value) -> void:
 	
 func GetConst(constName : String):
 	return consts[constName]
+	
 		
 func _on_line_edit_text_submitted(new_text : String):
 	text.text += input.text + "\n"
