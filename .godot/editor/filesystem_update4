@@ -1,4 +1,4 @@
 res://node_3d.tscn
-res://test_command.gd
-res://node_3d.gd
 res://Console/console.gd
+res://node_3d.gd
+res://Console/AutoCon.gd

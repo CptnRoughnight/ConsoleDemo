@@ -16,10 +16,16 @@ extends CanvasLayer
 @onready var anim = $AnimationPlayer
 @onready var saveTimer = $SaveTimer
 
+const VERSION = "0.1"
+
 var isVisible : bool = false
 var timestamp 
 
 var vars = {
+	
+}
+
+var consts = {
 	
 }
 	
@@ -69,6 +75,11 @@ func RegVar(varName:String,value) -> void:
 func GetVar(varName:String):
 	return vars[varName]
 	
+func RegConst(constName : String,value) -> void:
+	consts[constName] = value
+	
+func GetConst(constName : String):
+	return consts[constName]
 		
 func _on_line_edit_text_submitted(new_text : String):
 	text.text += input.text + "\n"
@@ -77,38 +88,78 @@ func _on_line_edit_text_submitted(new_text : String):
 
 
 func _parseFunctions(functext : String) -> void:
-	for a in commands:
-		for c in a.command_name:
-			var l = functext.split(" ")
-						
-			if c==l[0]:
-				# check for vars
-				var foundvar : bool = false
-				for pindex in range(1,l.size()):
-					var keys = vars.keys()
-					var varname : String
-					var varpos : int
-					for n in keys:
-						foundvar = false
-						if l[pindex]==n:
-							# found var
-							foundvar=true
-						if not foundvar:
-							var splitted = l[pindex].split(".")
-							if splitted:
-								if splitted[0]==n:
+	# inbuild functions
+	# -help			- help screen
+	# -funcs		- available registered functions
+	# -vars			- available registered variables
+	# -constants	- available registered constants
+	if functext == "-help":
+		AddLog("RoughCon - Godot4 Ingame Console")
+		AddLog("Version " + VERSION)
+		AddLog("https://roughnight.itch.io/")
+	elif functext == "-funcs":
+		for f in commands:
+			AddLog("Script: " + f.command_script)
+			for ff in f.command_name:
+				AddLog("Command: " + ff)
+				
+	elif functext == "-vars":
+		var keys = vars.keys()
+		for k in keys:
+			AddLog(k)
+	elif functext == "-constants":
+		var keys = consts.keys()
+		for k in keys:
+			AddLog(k)
+	else:
+		for a in commands:
+			for c in a.command_name:
+				var l = functext.split(" ")
+				if c==l[0]:
+					# check for consts
+					var constfound : bool = false
+					for cindex  in range(1,l.size()):
+						var keys = consts.keys()
+						var constname : String
+						for n in keys:
+							constfound = false
+							if l[cindex]==n:
+								constfound = true
+								var new_functext = functext.split(" ")
+								new_functext[cindex] = _trimParameters(str(consts[n]))
+								functext=""
+								for f in new_functext:
+									functext +=f + " "
+					if constfound==false:
+						# check for vars
+						var foundvar : bool = false
+						for pindex in range(1,l.size()):
+							var keys = vars.keys()
+							var varname : String
+							var varpos : int
+							for n in keys:
+								foundvar = false
+								if l[pindex]==n:
+									# found var
 									foundvar=true
-									varname = n
-									
-									varpos = pindex
-									var new_functext = functext.split(" ")
-									new_functext[varpos] = _trimParameters(str(vars[varname].get(splitted[1])))
-									functext=""
-									for f in new_functext:
-										functext +=f + " "
-				var ret = a.execute(functext)
-				if ret:
-					text.text += str(ret) +"\n"
+								if not foundvar:
+									var splitted = l[pindex].split(".")
+									if splitted:
+										if splitted[0]==n:
+											foundvar=true
+											varname = n
+											varpos = pindex
+											var new_functext = functext.split(" ")
+											new_functext[varpos] = _trimParameters(str(vars[varname].get(splitted[1])))
+											functext=""
+											for f in new_functext:
+												functext +=f + " "
+											
+					var ret = a.execute(functext)
+					if ret:
+						text.text += str(ret) +"\n"
+						
+						
 				
 func _trimParameters(input:String) -> String:
 	return input.replace(" ","").replace("(","").replace(")","")

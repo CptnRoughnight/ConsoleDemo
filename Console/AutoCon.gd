@@ -19,6 +19,15 @@ func GetVar(varName:String):
 		return Console.GetVar(varName)
 	
 	
+func RegConst(constName : String,value) -> void:
+	if Console:
+		Console.RegConst(constName,value)
+		
+func GetConst(constName : String):
+	if Console:
+		return Console.GetConst(constName)
+	
+	
 func SaveLogFile(filename) -> void:
 	if Console:
 		Console._saveLogFile(filename)

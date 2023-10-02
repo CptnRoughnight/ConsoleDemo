@@ -7,6 +7,8 @@ func _ready():
 	Console.RegVar("Player",$Camera3D)
 	# Register Object Container
 	Console.RegVar("Container",$Container)
+	# Resgier Constant
+	Console.RegConst("POS","10,5,10")
 	
 	
 var t = 1.0
